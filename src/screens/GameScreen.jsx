@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
     SafeAreaView,
     View,
@@ -8,41 +8,69 @@ import {
     TouchableOpacity,
     StyleSheet,
     Animated,
-} from "react-native";
-import { GameEngine } from "react-native-game-engine";
-import Matter, { Bodies, Composite, Events } from "matter-js";
+} from 'react-native';
+import { GameEngine } from 'react-native-game-engine';
+import Matter, { Bodies, Composite, Events } from 'matter-js';
 import LinearGradient from 'react-native-linear-gradient';
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 
-import gameMan from "../assets/gameMan.png";
-import hole from "../assets/hole.png";
-import basket from "../assets/basket.png";
-import playBG from "../assets/playBG.png";
-import PauseSVG from "../assets/icons/PauseSVG";
+import gameMan from '../assets/gameMan.png';
+import hole from '../assets/hole.png';
+import basket from '../assets/basket.png';
+import playBG from '../assets/playBG.png';
+import PauseSVG from '../assets/icons/PauseSVG';
 
-import Physics from "../systems/Physics";
-import Spawner from "../systems/Spawner";
+import Level1HeaderIcon from '../assets/levels/headers/Level1SVG.jsx';
+import Level2HeaderIcon from '../assets/levels/headers/Level2SVG.jsx';
+import Level3HeaderIcon from '../assets/levels/headers/Level3SVG.jsx';
+import Level4HeaderIcon from '../assets/levels/headers/Level4SVG.jsx';
+import Level5HeaderIcon from '../assets/levels/headers/Level5SVG.jsx';
+import Level6HeaderIcon from '../assets/levels/headers/Level6SVG.jsx';
+import Level7HeaderIcon from '../assets/levels/headers/Level7SVG.jsx';
+import Level8HeaderIcon from '../assets/levels/headers/Level8SVG.jsx';
+import Level9HeaderIcon from '../assets/levels/headers/Level9SVG.jsx';
+import Level10HeaderIcon from '../assets/levels/headers/Level10SVG.jsx';
+import Level11HeaderIcon from '../assets/levels/headers/Level11SVG.jsx';
+import Level12HeaderIcon from '../assets/levels/headers/Level12SVG.jsx';
 
-import PauseModal from "../components/PauseModal";
-import WinModal from "../components/WinModal";
-import LoseModal from "../components/LoseModal";
-import LevelModal from "../components/LevelModal";
-import ManualModal from "../components/ManualModal";
+import Physics from '../systems/Physics';
+import Spawner from '../systems/Spawner';
+
+import PauseModal from '../components/PauseModal';
+import WinModal from '../components/WinModal';
+import LoseModal from '../components/LoseModal';
+import LevelModal from '../components/LevelModal';
+import ManualModal from '../components/ManualModal';
 
 import {
     setLevelModalVisible,
     markLevelCompleted,
     nextLevel,
-} from "../store/slices/levelsSlice";
+} from '../store/slices/levelsSlice';
 
-import createEntities from "../helpers/createEntities";
-import handleCollision from "../helpers/handleCollision";
-import { resetGame } from "../helpers/gameUtils";
-import useBasketMovement from "../hooks/useBasketMovement";
+import createEntities from '../helpers/createEntities';
+import handleCollision from '../helpers/handleCollision';
+import { resetGame } from '../helpers/gameUtils';
+import useBasketMovement from '../hooks/useBasketMovement';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const BASKET_WIDTH = 100;
 const BASKET_HEIGHT = 80;
+
+const headerIconMapping = {
+    Level1: Level1HeaderIcon,
+    Level2: Level2HeaderIcon,
+    Level3: Level3HeaderIcon,
+    Level4: Level4HeaderIcon,
+    Level5: Level5HeaderIcon,
+    Level6: Level6HeaderIcon,
+    Level7: Level7HeaderIcon,
+    Level8: Level8HeaderIcon,
+    Level9: Level9HeaderIcon,
+    Level10: Level10HeaderIcon,
+    Level11: Level11HeaderIcon,
+    Level12: Level12HeaderIcon,
+};
 
 export default function GameScreen({ navigation }) {
     const dispatch = useDispatch();
@@ -78,7 +106,7 @@ export default function GameScreen({ navigation }) {
             SCREEN_HEIGHT - 66 - BASKET_HEIGHT / 2,
             BASKET_WIDTH,
             BASKET_HEIGHT,
-            { isStatic: true, label: "basket" }
+            { isStatic: true, label: 'basket' }
         )
     ).current;
     useEffect(() => {
@@ -118,7 +146,7 @@ export default function GameScreen({ navigation }) {
     }, [currentLevel, engine, world, handleBallFall]);
 
     useEffect(() => {
-        Events.on(engine, "collisionStart", (event) => {
+        Events.on(engine, 'collisionStart', (event) => {
             handleCollision({
                 event,
                 basketBody,
@@ -131,17 +159,17 @@ export default function GameScreen({ navigation }) {
                 setWinModalVisible,
             });
         });
-    }, [engine, world, isLevelModalVisible]);
+    }, [engine, world, isLevelModalVisible, basketBody]);
 
     const systems = [Physics, Spawner];
 
     const handleClosePauseModal = () => setIsPaused(false);
     const handleSettingsPress = () => {
-        navigation.navigate("Settings");
+        navigation.navigate('Settings');
         setIsPaused(false);
     };
     const handleMenuPress = () => {
-        navigation.replace("Start");
+        navigation.replace('Start');
         setIsPaused(false);
         setLoseModalVisible(false);
     };
@@ -165,8 +193,13 @@ export default function GameScreen({ navigation }) {
         setLoseModalVisible(false);
     };
 
+    const HeaderIcon =
+        currentLevel && currentLevel.headerIcon
+            ? headerIconMapping[currentLevel.headerIcon]
+            : null;
+
     return (
-        <LinearGradient colors={["#A71ABA", "#7109AD"]} style={styles.gradientContainer}>
+        <LinearGradient colors={['#A71ABA', '#7109AD']} style={styles.gradientContainer}>
             <Image source={playBG} style={styles.bgImage} resizeMode="cover" />
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.topBar}>
@@ -182,9 +215,9 @@ export default function GameScreen({ navigation }) {
                         />
                         <Text style={styles.progressText}>{progress}/{currentLevel.goals}</Text>
                     </View>
-                    {currentLevel && currentLevel.headerIcon && (
+                    {HeaderIcon && (
                         <View style={styles.ballContainer}>
-                            <currentLevel.headerIcon />
+                            <HeaderIcon />
                         </View>
                     )}
                     <Image source={gameMan} style={styles.gameMan} />
@@ -197,7 +230,7 @@ export default function GameScreen({ navigation }) {
                 </View>
                 <GameEngine
                     ref={gameEngineRef}
-                    style={{ flex: 1, backgroundColor: "transparent" }}
+                    style={{ flex: 1, backgroundColor: 'transparent' }}
                     systems={systems}
                     entities={entities}
                     running={
@@ -248,102 +281,102 @@ const styles = StyleSheet.create({
     gradientContainer: { flex: 1 },
     bgImage: {
         ...StyleSheet.absoluteFillObject,
-        opacity: 0.1
+        opacity: 0.1,
     },
     topBar: {
         height: 136,
-        backgroundColor: "#55006B",
-        position: "relative"
+        backgroundColor: '#55006B',
+        position: 'relative',
     },
     catchText: {
-        position: "absolute",
+        position: 'absolute',
         top: 14,
         left: 0,
         right: 0,
-        textAlign: "center",
-        fontFamily: "Poppins",
-        fontWeight: "700",
+        textAlign: 'center',
+        fontFamily: 'Poppins',
+        fontWeight: '700',
         fontSize: 16,
-        color: "#FFFFFF",
+        color: '#FFFFFF',
     },
     progressOuter: {
-        position: "absolute",
+        position: 'absolute',
         top: 56,
-        alignSelf: "center",
+        alignSelf: 'center',
         width: 125,
         height: 35,
         borderRadius: 15,
         borderWidth: 3,
-        borderColor: "#9916B6",
-        backgroundColor: "transparent",
-        overflow: "hidden",
-        alignItems: "center",
-        justifyContent: "center",
+        borderColor: '#9916B6',
+        backgroundColor: 'transparent',
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     progressFill: {
-        position: "absolute",
+        position: 'absolute',
         left: 0,
         top: 0,
         bottom: 0,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderTopLeftRadius: 38,
         borderTopRightRadius: 15,
         borderBottomRightRadius: 15,
         borderBottomLeftRadius: 42,
     },
     progressText: {
-        position: "absolute",
-        width: "100%",
-        textAlign: "center",
+        position: 'absolute',
+        width: '100%',
+        textAlign: 'center',
         lineHeight: 35,
-        fontFamily: "Poppins",
-        fontWeight: "900",
+        fontFamily: 'Poppins',
+        fontWeight: '900',
         fontSize: 15,
-        color: "#FFFFFF",
+        color: '#FFFFFF',
     },
     ballContainer: {
         borderRadius: 10,
-        justifyContent: "center",
-        alignItems: "flex-start",
+        justifyContent: 'center',
+        alignItems: 'flex-start',
         paddingLeft: 24,
         paddingTop: 46,
     },
     gameMan: {
-        position: "absolute",
+        position: 'absolute',
         right: 16,
         bottom: 0,
-        resizeMode: "contain",
+        resizeMode: 'contain',
     },
     pauseButton: {
-        position: "absolute",
+        position: 'absolute',
         top: 15,
         right: 12,
         width: 31,
         height: 31,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: '#FFFFFF',
         borderRadius: 15.5,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     holeContainer: {
-        alignItems: "center",
-        marginTop: 83
+        alignItems: 'center',
+        marginTop: 83,
     },
     holeImage: {
         width: 60,
         height: 60,
-        resizeMode: "contain"
+        resizeMode: 'contain',
     },
     basketContainer: {
-        position: "absolute",
+        position: 'absolute',
         bottom: 66,
         width: BASKET_WIDTH,
         height: BASKET_HEIGHT,
-        alignItems: "center",
+        alignItems: 'center',
     },
     basketImage: {
         width: BASKET_WIDTH,
         height: BASKET_HEIGHT,
-        resizeMode: "contain",
+        resizeMode: 'contain',
     },
 });

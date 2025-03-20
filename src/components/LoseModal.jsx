@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     retryButton: {
-        width: 150, // Увеличили ширину
-        height: 45,  // Увеличили высоту
+        width: 150,
+        height: 45,
         borderRadius: 22,
         backgroundColor: '#410563',
         shadowColor: '#00000040',

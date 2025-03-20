@@ -8,14 +8,42 @@ import {
     ImageBackground,
     StyleSheet,
 } from 'react-native';
-import CancelSVG from '../assets/levels/CancelSVG.jsx';
+import CancelSVG from '../assets/levels/CancelSVG';
 import modalMan from '../assets/modalMan.png';
 import levelBackground from '../assets/levels/image.png';
 
-export default function LevelModal({ visible, onStart, onClose, levelData }) {
-    if (!levelData) return null;
+import Level1ModalIcon from '../assets/levels/Level1SVG.jsx';
+import Level2ModalIcon from '../assets/levels/Level2SVG.jsx';
+import Level3ModalIcon from '../assets/levels/Level3SVG.jsx';
+import Level4ModalIcon from '../assets/levels/Level4SVG.jsx';
+import Level5ModalIcon from '../assets/levels/Level5SVG.jsx';
+import Level6ModalIcon from '../assets/levels/Level6SVG.jsx';
+import Level7ModalIcon from '../assets/levels/Level7SVG.jsx';
+import Level8ModalIcon from '../assets/levels/Level8SVG.jsx';
+import Level9ModalIcon from '../assets/levels/Level9SVG.jsx';
+import Level10ModalIcon from '../assets/levels/Level10SVG.jsx';
+import Level11ModalIcon from '../assets/levels/Level11SVG.jsx';
+import Level12ModalIcon from '../assets/levels/Level12SVG.jsx';
 
-    const ModalIcon = levelData.modalIcon;
+const modalIconMapping = {
+    Level1: Level1ModalIcon,
+    Level2: Level2ModalIcon,
+    Level3: Level3ModalIcon,
+    Level4: Level4ModalIcon,
+    Level5: Level5ModalIcon,
+    Level6: Level6ModalIcon,
+    Level7: Level7ModalIcon,
+    Level8: Level8ModalIcon,
+    Level9: Level9ModalIcon,
+    Level10: Level10ModalIcon,
+    Level11: Level11ModalIcon,
+    Level12: Level12ModalIcon,
+};
+
+export default function LevelModal({ visible, onStart, onClose, levelData }) {
+    if (!levelData) {return null;}
+
+    const ModalIcon = modalIconMapping[levelData.modalIcon];
 
     return (
         <Modal visible={visible} transparent animationType="fade">
@@ -30,7 +58,7 @@ export default function LevelModal({ visible, onStart, onClose, levelData }) {
                         <Text style={styles.headerText}>CATCH THE BALLS</Text>
                         <Text style={styles.levelNumber}>Lvl {levelData.id}</Text>
                         <View style={styles.rowContainer}>
-                            <ModalIcon />
+                            {ModalIcon && <ModalIcon />}
                             <Text style={styles.levelTitle}>{levelData.title}</Text>
                         </View>
                         <TouchableOpacity style={styles.continueButton} onPress={onStart}>
