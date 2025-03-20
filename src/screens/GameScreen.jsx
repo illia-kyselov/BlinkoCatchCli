@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { GameEngine } from "react-native-game-engine";
 import Matter, { Bodies, Composite, Events } from "matter-js";
-import { LinearGradient } from "expo-linear-gradient";
+import LinearGradient from 'react-native-linear-gradient';
 import { useSelector, useDispatch } from "react-redux";
 
 import gameMan from "../assets/gameMan.png";
