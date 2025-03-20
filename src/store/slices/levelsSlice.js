@@ -39,7 +39,7 @@ const initialLevels = [
     {
         id: 2,
         title: 'Collect 5 balls of different colors',
-        requirements: { red: 1, blue: 1, green: 1, yellow: 1, purple: 1 },
+        requirements: { red: 1, pink: 1, green: 1, yellow: 1, purple: 1, black: 1, white: 1 },
         modalIcon: Level2ModalIcon,
         headerIcon: Level2HeaderIcon,
         goals: 5,
@@ -48,7 +48,7 @@ const initialLevels = [
     {
         id: 3,
         title: 'Collect 3 blue and 5 pink balls',
-        requirements: { blue: 3, pink: 5 },
+        requirements: { purple: 3, pink: 5 },
         modalIcon: Level3ModalIcon,
         headerIcon: Level3HeaderIcon,
         goals: 8,
@@ -66,7 +66,7 @@ const initialLevels = [
     {
         id: 5,
         title: 'Collect 4 green and 4 blue balls',
-        requirements: { green: 4, blue: 4 },
+        requirements: { green: 4, purple: 4 },
         modalIcon: Level5ModalIcon,
         headerIcon: Level5HeaderIcon,
         goals: 8,
@@ -102,7 +102,7 @@ const initialLevels = [
     {
         id: 9,
         title: 'Collect 10 blue balls',
-        requirements: { blue: 10 },
+        requirements: { purple: 10 },
         modalIcon: Level9ModalIcon,
         headerIcon: Level9HeaderIcon,
         goals: 10,
@@ -120,7 +120,7 @@ const initialLevels = [
     {
         id: 11,
         title: 'Collect 12 balls of any type except black ones',
-        requirements: { any: 12 },
+        requirements: { red: 1, pink: 1, green: 1, yellow: 1, purple: 1, white: 1 },
         modalIcon: Level11ModalIcon,
         headerIcon: Level11HeaderIcon,
         goals: 12,
